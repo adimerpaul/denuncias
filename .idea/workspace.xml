@@ -186,10 +186,15 @@
       <option name="presentableId" value="Default" />
       <updated>1598536290098</updated>
       <workItem from="1598536292239" duration="630000" />
+<<<<<<< Updated upstream
       <workItem from="1598618640691" duration="12987000" />
       <workItem from="1598733327097" duration="3517000" />
       <workItem from="1598738707267" duration="4346000" />
       <workItem from="1598812181478" duration="15428000" />
+=======
+      <workItem from="1598618640691" duration="13324000" />
+      <workItem from="1598877770457" duration="49000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
@@ -202,6 +207,10 @@
     </state>
     <state x="461" y="167" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728/1366.0.1366.728@0.0.1366.728" timestamp="1598832336030" />
     <state x="461" y="167" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1598732247447" />
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1598877770127">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728/1366.0.1360.728@0.0.1366.728" timestamp="1598877770127" />
     <state x="339" y="162" key="run.anything.popup" timestamp="1598632374791">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

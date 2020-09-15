@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Denuncia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DenunciaController extends Controller
 {
@@ -24,7 +25,7 @@ class DenunciaController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -62,9 +63,9 @@ class DenunciaController extends Controller
      * @param  \App\Denuncia  $denuncia
      * @return \Illuminate\Http\Response
      */
-    public function show(Denuncia $denuncia)
+    public function show($id)
     {
-        //
+        return DB::table('denuncias')->where('estado','=',$id)->get();
     }
 
     /**
@@ -85,9 +86,14 @@ class DenunciaController extends Controller
      * @param  \App\Denuncia  $denuncia
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Denuncia $denuncia)
+    public function update(Request $request, $id)
     {
-        //
+        $denuncia=Denuncia::find($id);
+        $denuncia->estado=$request->estado;
+        isset($request->coaidgocaso)?$denuncia->coaidgocaso=$request->coaidgocaso:'';
+        isset($request->referencia)?$denuncia->referencia=$request->referencia:'';
+        isset($request->calse)?$denuncia->calse=$request->clase:'';
+        $denuncia->save();
     }
 
     /**

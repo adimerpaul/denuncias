@@ -46,13 +46,7 @@
                                         {{item.estado}}
                                     </td>
                                     <td>
-                                        <button @click="ver(item)" class="btn btn-warning btn-sm"><i class="fa fa-eye"></i>Ver</button>
-                                        <button  class="btn btn-success btn-sm" @click="marcha('DAR EN MARCHA',item)">
-                                            <i class="fa fa-plus"></i>Dar marcha
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" @click="marcha('NO DAR EN MARCHA',item)">
-                                            <i class="fa fa-minus"></i>No Dar marcha
-                                        </button>
+
                                     </td>
                                 </tr>
                                 </tbody>
@@ -122,133 +116,133 @@
 </template>
 
 <script>
-import $ from 'jquery'
-import moment from 'moment'
+    import $ from 'jquery'
+    import moment from 'moment'
 
-export default {
-    created() {
-        // console.log('Component mounted.')
-        this.datos();
-    },
-    data: function(){
-        return {
-            denuncias:[],
-            denuncia:{},
-            denu:{},
-            codigodenuncia:'',
-        }
-    },
-    methods:{
-        datos(){
-            axios.get('/denuncia/CREADO').then(res=>{
-                this.denuncias=res.data;
-            })
+    export default {
+        created() {
+            // console.log('Component mounted.')
+            this.datos();
         },
-        days(date){
-            var a = moment();
-            var b = moment(date);
-            return a.diff(b, 'days')
-        },
-        ver(item){
-            this.denuncia=item;
-            var doc = new jsPDF()
-            var fecha = new Date();
-            doc.setFontType('bold')
-            doc.text(60, 15, 'FORMULARIO DE DENUNCIA');
-            doc.setFontSize(10);
-            doc.text(40, 22, 'FECHA')
-            doc.text(80, 22, 'DIA')
-            doc.text(120, 22, 'MES')
-            doc.text(160, 22, 'AÑO')
-
-            doc.setFontType('normal')
-            doc.text(40, 27, '')
-            doc.text(80, 27, fecha.getDate().toString())
-            doc.text(120, 27, (fecha.getMonth()+1).toString())
-            doc.text(160, 27, fecha.getFullYear().toString())
-
-
-
-            doc.setFontType('bold')
-            doc.text(30, 33, 'I. INFORMACION DEL DENUNCIANTE')
-            doc.text(100, 33, 'Solicitud reserva de identidad')
-            doc.setFontType('normal')
-            doc.text(160, 33, this.denuncia.solicitud!=undefined?this.denuncia.solicitud:'' )
-
-            let wi=38;
-            doc.setFontType('bold')
-            doc.text(30, wi, 'Nombre y apellidos')
-            doc.text(110, wi, 'Cedula de identidad N°')
-            doc.setFontType('normal')
-            wi=wi+5;
-            doc.text(30, wi, this.denuncia.nombre!=undefined?this.denuncia.nombre:'');
-            doc.text(110, wi, this.denuncia.ci!=undefined?this.denuncia.ci:'')
-            wi=wi+6;
-            doc.setFontType('bold')
-            doc.text(30, wi, 'Telefono de referencia')
-            doc.text(110, wi, 'Correo electronico')
-            doc.setFontType('normal')
-            wi=wi+5;
-            doc.text(30, wi, this.denuncia.celular!=undefined?this.denuncia.celular:'')
-            doc.text(110, wi, this.denuncia.correo!=undefined?this.denuncia.correo:'')
-
-            wi=wi+7;
-            doc.setFontType('bold')
-            doc.text(30, wi, 'II. INFORMACION DEL DENUNCIADO(S)')
-            wi=wi+5;
-            doc.text(30, wi, 'N')
-            doc.text(35, wi, 'Nombres y apellidos')
-            doc.text(110, wi, 'Unidad Organizacional y/o Cedula de identidad')
-            doc.setFontType('normal');
-            let cont=0;
-            // this.personas.forEach(res=>{
-            //     cont++;
-                wi=wi+5;
-            let loremipsum = this.denuncia.denunciados;
-            let lines = doc.splitTextToSize(loremipsum, 160)
-            lines = doc.splitTextToSize(loremipsum, 160)
-            doc.text(30, wi, lines)
-            //     doc.text(30, wi, cont.toString())
-            //     doc.text(35, wi, res.nombre)
-            //     doc.text(110, wi, res.unidad)
-            // });
-            wi=wi+8;
-            doc.setFontType('bold')
-            doc.text(30, wi, 'III. DESCRIPCION DE LOS ECHO DE LA DENUNCIA:')
-            doc.setFontType('normal');
-            wi=wi+5;
-            // doc.text(30, wi, 'Considere las siguientes preguntas: ¿Que ocurrio? ¿Como? ¿Cuando paso? ¿Donde? ¿Quien lo hizo? ¿Con quien? ¿Cuanto?')
-            loremipsum = 'Considere las siguientes preguntas: ¿Que ocurrio? ¿Como? ¿Cuando paso? ¿Donde? ¿Quien lo hizo? ¿Con quien? ¿Cuanto?';
-            lines = doc.splitTextToSize(loremipsum, 160)
-            lines = doc.splitTextToSize(loremipsum, 160)
-            doc.text(30, wi, lines)
-            wi=wi+10;
-            loremipsum = this.denuncia.descripcion!=undefined?this.denuncia.descripcion:'';
-            lines = doc.splitTextToSize(loremipsum, 160)
-            doc.text(30, wi, lines)
-
-            doc.save('Denuncia');
-        },
-        marcha(estado,item){
-            let tipo;
-            // console.log(estado);
-            if(estado=='DAR EN MARCHA'){
-                tipo="info";
-            }else{
-                tipo="error";
+        data: function(){
+            return {
+                denuncias:[],
+                denuncia:{},
+                denu:{},
+                codigodenuncia:'',
             }
-            this.$fire({
-                title: estado+"?",
-                // text: estado,
-                type: tipo,
-                timer: 3000,
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si'
-            }).then(r => {
+        },
+        methods:{
+            datos(){
+                axios.get('/denuncia/CREADO').then(res=>{
+                    this.denuncias=res.data;
+                })
+            },
+            days(date){
+                var a = moment();
+                var b = moment(date);
+                return a.diff(b, 'days')
+            },
+            ver(item){
+                this.denuncia=item;
+                var doc = new jsPDF()
+                var fecha = new Date();
+                doc.setFontType('bold')
+                doc.text(60, 15, 'FORMULARIO DE DENUNCIA');
+                doc.setFontSize(10);
+                doc.text(40, 22, 'FECHA')
+                doc.text(80, 22, 'DIA')
+                doc.text(120, 22, 'MES')
+                doc.text(160, 22, 'AÑO')
+
+                doc.setFontType('normal')
+                doc.text(40, 27, '')
+                doc.text(80, 27, fecha.getDate().toString())
+                doc.text(120, 27, (fecha.getMonth()+1).toString())
+                doc.text(160, 27, fecha.getFullYear().toString())
+
+
+
+                doc.setFontType('bold')
+                doc.text(30, 33, 'I. INFORMACION DEL DENUNCIANTE')
+                doc.text(100, 33, 'Solicitud reserva de identidad')
+                doc.setFontType('normal')
+                doc.text(160, 33, this.denuncia.solicitud!=undefined?this.denuncia.solicitud:'' )
+
+                let wi=38;
+                doc.setFontType('bold')
+                doc.text(30, wi, 'Nombre y apellidos')
+                doc.text(110, wi, 'Cedula de identidad N°')
+                doc.setFontType('normal')
+                wi=wi+5;
+                doc.text(30, wi, this.denuncia.nombre!=undefined?this.denuncia.nombre:'');
+                doc.text(110, wi, this.denuncia.ci!=undefined?this.denuncia.ci:'')
+                wi=wi+6;
+                doc.setFontType('bold')
+                doc.text(30, wi, 'Telefono de referencia')
+                doc.text(110, wi, 'Correo electronico')
+                doc.setFontType('normal')
+                wi=wi+5;
+                doc.text(30, wi, this.denuncia.celular!=undefined?this.denuncia.celular:'')
+                doc.text(110, wi, this.denuncia.correo!=undefined?this.denuncia.correo:'')
+
+                wi=wi+7;
+                doc.setFontType('bold')
+                doc.text(30, wi, 'II. INFORMACION DEL DENUNCIADO(S)')
+                wi=wi+5;
+                doc.text(30, wi, 'N')
+                doc.text(35, wi, 'Nombres y apellidos')
+                doc.text(110, wi, 'Unidad Organizacional y/o Cedula de identidad')
+                doc.setFontType('normal');
+                let cont=0;
+                // this.personas.forEach(res=>{
+                //     cont++;
+                wi=wi+5;
+                let loremipsum = this.denuncia.denunciados;
+                let lines = doc.splitTextToSize(loremipsum, 160)
+                lines = doc.splitTextToSize(loremipsum, 160)
+                doc.text(30, wi, lines)
+                //     doc.text(30, wi, cont.toString())
+                //     doc.text(35, wi, res.nombre)
+                //     doc.text(110, wi, res.unidad)
+                // });
+                wi=wi+8;
+                doc.setFontType('bold')
+                doc.text(30, wi, 'III. DESCRIPCION DE LOS ECHO DE LA DENUNCIA:')
+                doc.setFontType('normal');
+                wi=wi+5;
+                // doc.text(30, wi, 'Considere las siguientes preguntas: ¿Que ocurrio? ¿Como? ¿Cuando paso? ¿Donde? ¿Quien lo hizo? ¿Con quien? ¿Cuanto?')
+                loremipsum = 'Considere las siguientes preguntas: ¿Que ocurrio? ¿Como? ¿Cuando paso? ¿Donde? ¿Quien lo hizo? ¿Con quien? ¿Cuanto?';
+                lines = doc.splitTextToSize(loremipsum, 160)
+                lines = doc.splitTextToSize(loremipsum, 160)
+                doc.text(30, wi, lines)
+                wi=wi+10;
+                loremipsum = this.denuncia.descripcion!=undefined?this.denuncia.descripcion:'';
+                lines = doc.splitTextToSize(loremipsum, 160)
+                doc.text(30, wi, lines)
+
+                doc.save('Denuncia');
+            },
+            marcha(estado,item){
+                let tipo;
+                // console.log(estado);
+                if(estado=='DAR EN MARCHA'){
+                    tipo="info";
+                }else{
+                    tipo="error";
+                }
+                this.$fire({
+                    title: estado+"?",
+                    // text: estado,
+                    type: tipo,
+                    timer: 3000,
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si'
+                }).then(r => {
                     // console.log(r.value);
-                this.codigodenuncia=item.id;
+                    this.codigodenuncia=item.id;
                     if(r.value){
                         if (estado=='DAR EN MARCHA'){
                             $('#exampleModal').modal('show');
@@ -259,21 +253,21 @@ export default {
                             })
                         }
                     }
-            });
+                });
+            },
+            guardar(){
+                this.denu.estado='DAR EN MARCHA';
+                axios.put('/denuncia/'+this.codigodenuncia,this.denu).then(res=>{
+                    // console.log();
+                    this.datos();
+                    $('#exampleModal').modal('hide');
+                })
+            }
         },
-        guardar(){
-            this.denu.estado='DAR EN MARCHA';
-            axios.put('/denuncia/'+this.codigodenuncia,this.denu).then(res=>{
-                // console.log();
-                this.datos();
-                $('#exampleModal').modal('hide');
-            })
-        }
-    },
-    filters: {
-        moment: function (date) {
-            return moment(date).format('DD/MM/YYYY, HH:mm:ss');
+        filters: {
+            moment: function (date) {
+                return moment(date).format('DD/MM/YYYY, HH:mm:ss');
+            }
         }
     }
-}
 </script>

@@ -24,6 +24,9 @@ class CreateDenunciasTable extends Migration
             $table->string('denunciados')->default('');
             $table->string('descripcion')->default('');
             $table->string('estado')->default('CREADO');
+            $table->string('codigocaso')->default('');
+            $table->string('referencia')->default('');
+            $table->string('clase')->default('');
             $table->timestamps();
         });
     }

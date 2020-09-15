@@ -161,8 +161,6 @@
                             doc.text(120, 27, (fecha.getMonth()+1).toString())
                             doc.text(160, 27, fecha.getFullYear().toString())
 
-
-
                             doc.setFontType('bold')
                             doc.text(30, 33, 'I. INFORMACION DEL DENUNCIANTE')
 
@@ -213,10 +211,14 @@
                             wi=wi+10;
                             loremipsum = this.denuncia.descripcion!=undefined?this.denuncia.descripcion:'';
                             lines = doc.splitTextToSize(loremipsum, 160)
-
                             doc.text(30, wi, lines)
 
                             doc.save('Denuncia');
+
+                            this.solicita='';
+                            this.personas=[{nombre:'',unidad:''}];
+                            this.denuncia={};
+
                         });
                     }
                 });
